@@ -6,9 +6,11 @@ public class Factorial {
         System.out.print("Enter a number: ");
         int n = sc.nextInt();
         long fact = 1;
+        System.out.println("Factorial is: \n");
         for(int i = 1; i <= n; i++) {
             fact *= i;
+            System.out.println(fact);
         }
-        System.out.println("Factorial is: " + fact);
+        
     }
 }
