@@ -29,7 +29,7 @@ public class fileStremes {
 		char ch[] = new char[(int) f.length()];
 		fr.read(ch);
 		for (char c : ch) {
-      	System.out.println(c);
+      	System.out.print(c);
 		}
 		
 		System.out.println("lenght:"+f.length());
