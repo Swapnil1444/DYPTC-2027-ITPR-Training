@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Sample Online Items and Prices</title>
+    <style>
+        :root { --accent:#0b79d0; --muted:#666; --card:#fff; --bg:#f6f6f6; }
+        body { font-family: system-ui,Segoe UI,Roboto,Arial; background:var(--bg); margin:0; padding:2rem; display:flex; justify-content:center; }
+        .container { max-width:520px; width:100%; }
+        .header { background:#222; color:#fff; padding:1rem; text-align:center; font-weight:700; border-radius:6px 6px 0 0; }
+        .card { background:var(--card); padding:1.5rem; box-shadow:0 6px 20px rgba(0,0,0,.08); border-radius:0 0 6px 6px; margin-top:0.5rem; }
+        .field { display:flex; flex-direction:column; gap:.35rem; margin-bottom:1rem; }
+        label { font-weight:700; color:#3b1b58; font-size:0.95rem; }
+        input[type="number"] { padding:.5rem .6rem; font-size:1rem; border:1px solid #d6d6d6; border-radius:4px; width:100%; box-sizing:border-box; }
+        button { background:var(--accent); color:#fff; border:0; padding:.65rem .9rem; border-radius:6px; cursor:pointer; font-weight:600; width:100%; }
+        .total { text-align:center; margin-top:1.2rem; font-weight:800; font-size:1.1rem; color:#222; }
+        @media (min-width:640px){ .card { padding:2rem; } }
+    </style>
+</head>
+<body>
+    <div class="container" role="main">
+        <div class="header">Sample Online Items and Prices</div>
+
+        <form id="orderForm" class="card" aria-label="Order form">
+            <div class="field">
+                <label for="laptop">Laptop ($500 each)</label>
+                <input id="laptop" type="number" min="0" step="1" value="0" inputmode="numeric" />
+            </div>
+
+            <div class="field">
+                <label for="smartphone">Smartphone ($400 each)</label>
+                <input id="smartphone" type="number" min="0" step="1" value="0" inputmode="numeric" />
+            </div>
+
+            <div class="field">
+                <label for="headphones">Headphones ($50 each)</label>
+                <input id="headphones" type="number" min="0" step="1" value="0" inputmode="numeric" />
+            </div>
+
+            <div class="field">
+                <label for="tablet">Tablet ($300 each)</label>
+                <input id="tablet" type="number" min="0" step="1" value="0" inputmode="numeric" />
+            </div>
+
+            <button type="submit" id="calculateBtn">Calculate Total Price</button>
+        </form>
+
+        <div class="total" id="totalDisplay">Total Price: $<span id="totalPrice">0.00</span></div>
+    </div>
+
+    <script>
+        (function(){
+            const prices = { laptop:500, smartphone:400, headphones:50, tablet:300 };
+            const form = document.getElementById('orderForm');
+            const totalEl = document.getElementById('totalPrice');
+
+            function calculate() {
+                let total = 0;
+                Object.keys(prices).forEach(id => {
+                    const qty = parseFloat(document.getElementById(id).value) || 0;
+                    total += qty * prices[id];
+                });
+                totalEl.textContent = total.toFixed(2);
+            }
+
+            form.addEventListener('submit', (e) => {
+                e.preventDefault();
+                calculate();
+            });
+
+            // update on input change as well
+            ['laptop','smartphone','headphones','tablet'].forEach(id => {
+                document.getElementById(id).addEventListener('input', calculate);
+            });
+        })();
+    </script>
+</body>
+</html>

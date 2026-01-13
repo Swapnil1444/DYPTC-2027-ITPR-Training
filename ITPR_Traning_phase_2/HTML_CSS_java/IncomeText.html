@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Income Tax Calculator</title>
+    <link rel="stylesheet" href="income.css">
+</head>
+<body>
+    <main class="wrap" role="main">
+        <h1>Income Tax Calculator</h1>
+        <p class="subtitle">Revised income tax slabs under new tax regime for FY 2023-24 (AY 2024-25)</p>
+
+        <section class="card" aria-labelledby="slabHeading">
+            <h2 id="slabHeading" class="visually-hidden">Tax slabs</h2>
+
+            <table class="slabs" aria-label="Income tax slabs under new tax regime">
+                <thead>
+                    <tr><th>Income range (₹)</th><th>Rate</th></tr>
+                </thead>
+                <tbody>
+                    <tr><td>0 to 3,00,000</td><td>0%</td></tr>
+                    <tr><td>3,00,001 to 6,00,000</td><td>5%</td></tr>
+                    <tr><td>6,00,001 to 9,00,000</td><td>10%</td></tr>
+                    <tr><td>9,00,001 to 12,00,000</td><td>15%</td></tr>
+                    <tr><td>12,00,001 to 15,00,000</td><td>20%</td></tr>
+                    <tr><td>Above 15,00,000</td><td>30%</td></tr>
+                </tbody>
+            </table>
+
+            <label for="income" class="label">Annual Income: New Slab</label>
+            <input id="income" type="number" min="0" inputmode="numeric" placeholder="Enter your annual income" />
+
+            <div class="actions">
+                <button id="calculate">Calculate Tax</button>
+                <button id="clear" type="button">Reset</button>
+            </div>
+
+            <div id="result" class="result" role="status" aria-live="polite"></div>
+        </section>
+    </main>
+
+    <script src="income.js"></script>
+</body>
+<style>
+        :root{
+      --bg:#eef3f3;
+      --card:#ffffff;
+      --accent:#2b7ac9;
+      --muted:#666;
+    }
+    *{box-sizing:border-box}
+    body{
+      font-family: system-ui,Segoe UI,Roboto,Arial;
+      margin:0; background:var(--bg); padding:2rem; display:flex; justify-content:center;
+    }
+    .wrap{width:100%;max-width:620px}
+    h1{background:#111;color:#fff;padding:.8rem;border-radius:6px 6px 0 0;text-align:center;margin:0;font-size:1.25rem}
+    .subtitle{margin:.8rem 0;color:var(--muted);text-align:center}
+    .card{background:var(--card);padding:1.25rem;border-radius:0 0 6px 6px;box-shadow:0 8px 28px rgba(0,0,0,0.08)}
+    .slabs{width:100%;border-collapse:collapse;margin-bottom:1rem}
+    .slabs th,.slabs td{border:1px solid #dcdcdc;padding:.5rem;text-align:left;font-size:.95rem}
+    .slabs thead{background:#f7fbfb;font-weight:700}
+    .label{display:block;font-weight:700;color:#333;margin-bottom:.35rem}
+    input[type="number"]{width:100%;padding:.55rem .6rem;border:1px solid #d6d6d6;border-radius:4px;font-size:1rem}
+    .actions{display:flex;gap:.6rem;margin-top:.8rem}
+    button{flex:1;padding:.6rem;border:0;border-radius:6px;background:var(--accent);color:#fff;font-weight:700;cursor:pointer}
+    button[type="button"]{background:#7d7d7d}
+    .result{margin-top:1rem;padding:.6rem;border-radius:6px;background:#f3f7f7;color:#0b3b66;font-weight:700;text-align:center}
+    .visually-hidden{position:absolute!important;height:1px;width:1px;overflow:hidden;clip:rect(1px,1px,1px,1px);white-space:nowrap}
+    @media (min-width:640px){ .card{padding:1.5rem} }
+</style>
+<script>
+        (function(){
+      const incomeInput = document.getElementById('income');
+      const calcBtn = document.getElementById('calculate');
+      const clearBtn = document.getElementById('clear');
+      const resultEl = document.getElementById('result');
+    
+      // slab upper limits in rupees and corresponding rates
+      const slabs = [
+        {limit: 300000, rate: 0},
+        {limit: 600000, rate: 0.05},
+        {limit: 900000, rate: 0.10},
+        {limit: 1200000, rate: 0.15},
+        {limit: 1500000, rate: 0.20},
+      ];
+      const topRate = 0.30; // above highest slab
+    
+      function calculateTax(income){
+        income = Math.max(0, Number(income) || 0);
+        let prev = 0;
+        let tax = 0;
+        for (let i=0;i<slabs.length;i++){
+          const slab = slabs[i];
+          const taxable = Math.max(0, Math.min(income, slab.limit) - prev);
+          tax += taxable * slab.rate;
+          prev = slab.limit;
+        }
+        if (income > prev){
+          tax += (income - prev) * topRate;
+        }
+        return tax;
+      }
+    
+      function formatAmount(n){
+        return '₹' + Number(n).toLocaleString('en-IN', {minimumFractionDigits:2, maximumFractionDigits:2});
+      }
+    
+      calcBtn.addEventListener('click', (e)=>{
+        e.preventDefault();
+        const income = parseFloat(incomeInput.value);
+        if (Number.isNaN(income) || income < 0){
+          resultEl.textContent = 'Please enter a valid positive income.';
+          return;
+        }
+        const tax = calculateTax(income);
+        const effectiveRate = income > 0 ? (tax / income * 100) : 0;
+        resultEl.innerHTML = `Income tax on an income of ${formatAmount(income)} is <strong>${formatAmount(tax)}</strong> (Effective rate: ${effectiveRate.toFixed(2)}%)`;
+      });
+    
+      clearBtn.addEventListener('click', () => {
+        incomeInput.value = '';
+        resultEl.textContent = '';
+        incomeInput.focus();
+      });
+    
+      // optional: calculate on Enter
+      incomeInput.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter') { e.preventDefault(); calcBtn.click(); }
+      });
+    })();
+</script>
+</html>

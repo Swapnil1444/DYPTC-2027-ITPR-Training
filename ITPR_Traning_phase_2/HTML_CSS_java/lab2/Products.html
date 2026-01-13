@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>Simple online item and prices</h1>
+
+    <table id="products" aria-label="Products and prices">
+        <thead>
+            <tr>
+                <th scope="col">Item</th>
+                <th scope="col">Price</th> 
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Notebook</td>
+                <td class="price">3.50</td>
+            </tr>
+            <tr>
+                <td>Pen</td>
+                <td class="price">1.20</td>
+            </tr>
+            <tr>
+                <td>Laptop</td>
+                <td class="price">20000</td>
+            </tr>
+            <tr>
+                <td>Tablet</td>
+                <td class="price">10000</td>
+            </tr>
+            <tr>
+                <td>Headphones</td>
+                <td class="price">1000</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <style>
+        #products { width:200px; border-collapse:collapse; margin-top:1rem; }
+        #products th, #products td { border:1px solid #ccc; padding:8px; }
+        #products thead { background:#40dce1; }
+        #products tfoot th { background:#fafafa; }
+    </style>
+
+</body>
+</html>
