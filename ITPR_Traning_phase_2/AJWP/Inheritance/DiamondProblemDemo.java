@@ -1,4 +1,4 @@
-package AJWP.inheritans;
+package AJWP.Inheritance;
 // Explain the diamond problem in inheritance and how Java resolves it using interfaces. Provide an example.?
 interface A {
     default void show() {

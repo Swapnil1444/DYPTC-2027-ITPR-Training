@@ -1,5 +1,5 @@
 //What's the role of the Object class in Java, and how is it related to inheritance?
-package AJWP.inheritans;
+package AJWP.Inheritance;
 class Employee1 {
     String name;
     Employee1(String name) {

@@ -1,6 +1,6 @@
 // Describe the concept of constructor chaining and how it works in Java inheritance.?
 
-package AJWP.inheritans;
+package AJWP.Inheritance;
 
 class Employee {
     Employee(String name) {

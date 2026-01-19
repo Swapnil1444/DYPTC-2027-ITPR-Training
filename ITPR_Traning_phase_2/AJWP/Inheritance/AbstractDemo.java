@@ -1,5 +1,5 @@
 //Discuss the concept of an abstract class in Java and how it is related to inheritance. Provide an example.?
-package AJWP.inheritans;
+package AJWP.Inheritance;
 
 abstract class Employee {
     String name;

@@ -2,7 +2,7 @@
 // Developer, and Programmer. Each subclass should have properties such as name, address,
 //  salary, and job title. Implement methods for calculating bonuses, generating performance reports, 
 //  and managing projects.
-package AJWP.inheritans;
+package AJWP.Inheritance;
 
 class Employee {
     String name, address, jobTitle;
